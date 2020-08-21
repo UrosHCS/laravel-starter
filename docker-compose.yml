@@ -1,0 +1,65 @@
+version: "3.3"
+
+services:
+  laravel-nginx:
+    image: nginx
+    container_name: laravel-nginx
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - ./:/app
+    ports:
+      - "4000:80"
+    expose:
+      - "80"
+    networks:
+      - laravel_network
+    depends_on:
+    - laravel-php
+
+  laravel-php:
+    container_name: laravel-php
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "9000:9000"
+    depends_on:
+      - laravel-mysql
+      - laravel-redis
+    volumes:
+      - ./:/app
+    networks:
+      - laravel_network
+ 
+  laravel-mysql:
+    image: mysql/mysql-server:8.0
+    container_name: laravel-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: laravel
+      MYSQL_PASSWORD: secret
+      MYSQL_DATABASE: laravel
+    ports:
+      - "33060:3306"
+    expose:
+      - "3306"
+    volumes:
+      - laravel-mysql:/var/lib/mysql
+    networks:
+      - laravel_network
+
+  laravel-redis:
+    image: redis:latest
+    container_name: laravel-redis
+    # ports:
+    #   - "6379:6380"
+    networks:
+      - laravel_network
+
+networks:
+  laravel_network:
+    driver: bridge
+
+volumes:
+  laravel-mysql:
+    driver: local
