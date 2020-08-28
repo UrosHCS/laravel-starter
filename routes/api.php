@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('posts', 'PostsController@index');
+Route::get('users', 'UsersController@index');
 
 Route::group(['middleware' => 'api'], function ($router) {
     Route::post('login', 'AuthController@login');
