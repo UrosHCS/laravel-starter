@@ -10,7 +10,7 @@ class PostsTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testExample()
+    public function testSuccess()
     {
         $posts = factory(Post::class, 3)->create();
 

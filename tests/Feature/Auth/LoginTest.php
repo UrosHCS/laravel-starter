@@ -6,7 +6,7 @@ use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class ExampleTest extends TestCase
+class LoginTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -26,6 +26,7 @@ class ExampleTest extends TestCase
                     'expires_in_seconds' => 3600
                 ]
             ]);
+
         $this->assertNotNull($response->json('data.token'));
     }
 
